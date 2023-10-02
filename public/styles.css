@@ -1,0 +1,30 @@
+/* Estilo para a mensagem de erro */
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+/* styles.css */
+.logo-container {
+  text-align: center; /* Centraliza o logotipo horizontalmente */
+}
+
+img {
+  max-width: 200px; /* Define o tamanho máximo do logotipo */
+  height: auto; /* Mantém a proporção da imagem */
+}
+
+/* styles.css */
+.container {
+  text-align: center; /* Centraliza o conteúdo horizontalmente */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  justify-content: center; /* Centraliza o conteúdo verticalmente */
+  height: 100vh; /* Define a altura da tela inteira como altura do contêiner */
+}
+
+.login-form-container {
+  margin-top: 20px; /* Espaço superior para separar do logotipo */
+  max-width: 400px; /* Largura máxima do formulário */
+}
