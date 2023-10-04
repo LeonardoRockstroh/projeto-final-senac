@@ -4,27 +4,53 @@
     font-weight: bold;
 }
 
-/* styles.css */
 .logo-container {
-  text-align: center; /* Centraliza o logotipo horizontalmente */
+  text-align: center; 
 }
 
 img {
-  max-width: 200px; /* Define o tamanho máximo do logotipo */
-  height: auto; /* Mantém a proporção da imagem */
+  max-width: 200px; 
+  height: auto; 
 }
 
-/* styles.css */
 .container {
-  text-align: center; /* Centraliza o conteúdo horizontalmente */
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centraliza o conteúdo verticalmente */
-  justify-content: center; /* Centraliza o conteúdo verticalmente */
-  height: 100vh; /* Define a altura da tela inteira como altura do contêiner */
+  align-items: center; 
+  justify-content: center; 
+  height: 100vh; 
 }
 
 .login-form-container {
-  margin-top: 20px; /* Espaço superior para separar do logotipo */
-  max-width: 400px; /* Largura máxima do formulário */
+  margin-top: 20px; 
+  max-width: 400px; 
+}
+
+nav {
+  text-align: right;
+  padding: 10px;
+  background-color: #9BB7E2;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a.button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #9BB7E2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.container {
+  text-align: center;
+  margin-top: 20px;
 }

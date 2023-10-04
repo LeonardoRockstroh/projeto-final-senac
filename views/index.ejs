@@ -2,9 +2,18 @@
 <html>
 <head>
   <title>Bem-vindo</title>
+  <link rel="stylesheet" type="text/css" href="/styles.css">
 </head>
 <body>
-  <h1>Bem-vindo, <%= username %>!</h1>
-  <a href="/login">Fazer logout</a>
+  <nav>
+    <a href="/logout" style="color: #fff;">Sair</a>
+  </nav>
+  <div class="container">
+    <h1>Bem-vindo, <%= username %>!</h1>
+    <div class="button-container">
+      <a href="/products" class="button">Produtos</a>
+      <a href="/notifications" class="button">Notificações</a>
+    </div>
+  </div>
 </body>
 </html>
