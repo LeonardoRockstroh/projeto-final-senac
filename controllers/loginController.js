@@ -11,8 +11,8 @@ module.exports = {
   
       // Simulação de um usuário de exemplo
       const user = {
-        username: 'usuario',
-        password: 'senha123',
+        username: '123',
+        password: '123',
       };
   
       if (username === user.username && password === user.password) {
