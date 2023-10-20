@@ -21,4 +21,15 @@ module.exports = {
 
     res.redirect('/products');
   },
+
+  getListaProdutos: async (req, res) => {
+    try {
+
+      const produtos = await produtosRepository.getListaProdutos();
+
+      res.render('lista-produtos', { username: req.session.username, produtos });
+    } catch (error) {
+      res.render('error', { errorMessage: 'Erro ao carregar a lista de produtos.' });
+    }
+  },
 };

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lista de Produtos</title>
+  <link rel="stylesheet" type="text/css" href="/styles_nav.css">
+</head>
+<body>
+  <nav>
+    <a href="/products" style="color: #fff;" class="voltar-link">Voltar</a>
+  </nav>
+  <div class="container">
+    <h1>Lista de Produtos</h1>
+    <table>
+      <tr>
+        <th>Nome do Produto</th>
+        <th>Quantidade</th>
+        <th>Data de Vencimento</th>
+        <th>Editar</th>
+        <th>Deletar</th>
+      </tr>
+      <% produtos.forEach((produto) => { %>
+        <tr>
+          <td><%= produto.prod_name %></td>
+          <td><%= produto.prod_qtd %></td>
+          <td><%= produto.prod_vencimento %></td>
+          <td><a href="/editar-produto/<%= produto.id %>">Editar</a></td>
+          <td><a href="/deletar-produto/<%= produto.id %>">Deletar</a></td>
+        </tr>
+      <% }); %>
+    </table>
+  </div>
+</body>
+</html>

@@ -28,3 +28,22 @@ exports.inserirProduto = async ( prod_name, prod_qtd, prod_vencimento, prod_noti
             throw error;
          }
 };
+
+exports.getListaProdutos = async ( ) => {
+    const cliente = new Client(conexao);
+    const sql     = "SELECT * FROM produto";
+
+    cliente.connect();    
+        try{
+            const res = await cliente.query(sql);
+            cliente.end();
+            return (res.rows);
+         }
+         catch(err){
+            let error = {};
+            error.name = err.name;
+            error.message = err.message;
+            error.status = 500;
+            throw error;
+         }
+};
