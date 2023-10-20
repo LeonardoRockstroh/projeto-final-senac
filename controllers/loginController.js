@@ -11,8 +11,6 @@ module.exports = {
 
       req.session.username = username;
 
-      console.log(req.session.username)
-
       try {
         const usuario = await loginRepository.buscaUsuario(username, password);
   

@@ -45,6 +45,12 @@ app.get('/index', loginController.getWelcome);
 // Rota para a página de produtos
 app.get('/products', productsController.getProdutos);
 
+// Rota para a página de cadastro de produto
+app.get('/cadastrar-produto', productsController.getCadastroProduto);
+
+// Rota para processar o envio do formulário de cadastro de produto
+app.post('/cadastrar-produto', productsController.postCadastroProduto);
+
 // Rota para a página de notificações
 app.get('/notifications', notificationsController.getNotifications);
 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cadastrar Produto</title>
+  <link rel="stylesheet" type="text/css" href="/styles_nav.css">
+  <link rel="stylesheet" type="text/css" href="/styles_form_prod.css">
+</head>
+<body>
+  <nav>
+    <a href="/products" style="color: #fff;" class="voltar-link">Voltar</a>
+  </nav>
+  <div class="container">
+    <h1>Cadastrar Produto</h1>
+    <form action="/cadastrar-produto" method="POST">
+      <div class="form-group">
+        <label for="prod_name">Nome do Produto:</label>
+        <input type="text" id="prod_name" name="prod_name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="prod_qtd">Quantidade:</label>
+        <input type="number" id="prod_qtd" name="prod_qtd" step="any" required min="0">
+      </div>
+
+      <div class="form-group">
+        <label for="prod_vencimento">Data de Vencimento:</label>
+        <input type="date" id="prod_vencimento" name="prod_vencimento">
+      </div>
+
+      <div class="form-group">
+        <label for="prod_notif">Deseja receber notificação?</label>
+        <div class="checkbox-container">
+          <input type="checkbox" id="prod_notif" name="prod_notif">
+        </div>
+      </div>
+
+      <div class="form-group" id="prod_notif_dias" style="display: none;">
+        <label for="prod_notif_dias" class="left-aligned-label" >Dias antes para notificar:</label>
+        <input type="number" id="prod_notif_dias" name="prod_notif_dias" min="0" max="31">
+      </div>
+
+      <button type="submit" class="button">Cadastrar</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const checkbox = document.getElementById("prod_notif");
+      const diasGroup = document.getElementById("prod_notif_dias");
+
+      checkbox.addEventListener("change", function () {
+        diasGroup.style.display = checkbox.checked ? "block" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
