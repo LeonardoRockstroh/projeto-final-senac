@@ -1,0 +1,32 @@
+.container {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    margin: 18vh auto;
+}
+
+h1 {
+    margin: 0 0 20px; /* Adiciona um espaço abaixo do título */
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button {
+    display: block; /* Faz com que os botões ocupem a largura disponível */
+    margin: 10px 0; /* Espaçamento entre os botões */
+    text-decoration: none;
+    background-color: #9BB7E2;
+    color: #fff;
+    height: 80px;
+    font-size: 35px; /* Tamanho do texto aumentado */
+    line-height: 75px; /* Centraliza o texto verticalmente */
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* Adiciona uma transição suave */
+}
+
+a.button:hover {
+    background-color: #7A9EC8; /* Define a cor de fundo mais clara no hover */
+}

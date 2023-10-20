@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const loginController = require('./controllers/loginController');
 const logoutController = require('./controllers/logoutController');
@@ -9,6 +10,17 @@ const notificationsController = require('./controllers/notificationsController')
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+  secret: 'username', // Substitua com uma chave secreta adequada
+  resave: false,
+  saveUninitialized: true,
+}));
+
+app.use((req, res, next) => {
+  res.locals.username = req.session.username;
+  next();
+});
 
 // Configurar o Express para servir arquivos estáticos
 app.use(express.static('public'));
@@ -31,7 +43,7 @@ app.get('/logout', logoutController.getLogout);
 app.get('/index', loginController.getWelcome);
 
 // Rota para a página de produtos
-app.get('/products', productsController.getProducts);
+app.get('/products', productsController.getProdutos);
 
 // Rota para a página de notificações
 app.get('/notifications', notificationsController.getNotifications);

@@ -1,23 +1,27 @@
+const loginRepository = require('../repository/loginRepository');
 const express = require('express');
 
-// controllers/loginController.js
 module.exports = {
     getLogin: (req, res) => {
       res.render('login');
     },
   
-    postLogin: (req, res) => {
+    postLogin: async (req, res) => {
       const { username, password } = req.body;
+
+      req.session.username = username;
+
+      console.log(req.session.username)
+
+      try {
+        const usuario = await loginRepository.buscaUsuario(username, password);
   
-      // Simulação de um usuário de exemplo
-      const user = {
-        username: '123',
-        password: '123',
-      };
-  
-      if (username === user.username && password === user.password) {
-        res.render('index', { username });
-      } else {
+        if (usuario[0].user_id) {
+          res.render('index', { username });
+        } else {
+          res.render('login', { errorMessage: 'Login falhou. Verifique suas credenciais.' });
+        }
+      } catch (error) {
         res.render('login', { errorMessage: 'Login falhou. Verifique suas credenciais.' });
       }
     },

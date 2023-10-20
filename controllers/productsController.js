@@ -1,6 +1,5 @@
-// productsController.js
 module.exports = {
-    getProducts: (req, res) => {
-      res.render('products');
-    }
+  getProdutos: (req, res) => {
+    res.render('produtos', { username: req.session.username });
+  },
 };
