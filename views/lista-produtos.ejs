@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Lista de Produtos</title>
   <link rel="stylesheet" type="text/css" href="/styles_nav.css">
+  <link rel="stylesheet" type="text/css" href="/styles_list_prod.css">
+  <!-- Adicione seus estilos aqui -->
 </head>
 <body>
   <nav>
@@ -10,23 +12,28 @@
   </nav>
   <div class="container">
     <h1>Lista de Produtos</h1>
-    <table>
-      <tr>
-        <th>Nome do Produto</th>
-        <th>Quantidade</th>
-        <th>Data de Vencimento</th>
-        <th>Editar</th>
-        <th>Deletar</th>
-      </tr>
-      <% produtos.forEach((produto) => { %>
+    <table class="table">
+      <thead>
         <tr>
-          <td><%= produto.prod_name %></td>
-          <td><%= produto.prod_qtd %></td>
-          <td><%= produto.prod_vencimento %></td>
-          <td><a href="/editar-produto/<%= produto.id %>">Editar</a></td>
-          <td><a href="/deletar-produto/<%= produto.id %>">Deletar</a></td>
+          <th>Nome do Produto</th>
+          <th>Quantidade</th>
+          <th>Notificar</th>
+          <th>Editar</th>
+          <th>Deletar</th>
         </tr>
-      <% }); %>
+      </thead>
+      <tbody>
+        <% produtos.forEach((produto) => { %>
+          <tr>
+            <td><%= produto.prod_name %></td>
+            <td><%= produto.prod_qtd %></td>
+            <td><%= produto.prod_notif ? 'Sim' : 'Não' %></td>
+            <!-- Ajuste o tamanho dos ícones conforme necessário -->
+            <td><a href="/editar-produto/<%= produto.prod_id %>"><img src="/edit.png" alt="Editar" style="width: 30px; height: 30px;"></a></td>
+            <td><a href="/deletar-produto/<%= produto.prod_id %>"><img src="/delete.png" alt="Deletar" style="width: 30px; height: 30px;"></a></td>
+          </tr>
+        <% }); %>
+      </tbody>
     </table>
   </div>
 </body>

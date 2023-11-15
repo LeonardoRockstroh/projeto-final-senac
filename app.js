@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const loginController = require('./controllers/loginController');
 const logoutController = require('./controllers/logoutController');
 const productsController = require('./controllers/productsController');
+const editarProdutoController = require('./controllers/editarProdutoController');
 const notificationsController = require('./controllers/notificationsController');
 
 app.set('view engine', 'ejs');
@@ -53,6 +54,10 @@ app.post('/cadastrar-produto', productsController.postCadastroProduto);
 
 // Rota para a página que lista os produtos
 app.get('/lista-de-produtos', productsController.getListaProdutos);
+
+// Rota para a página de edição de produto
+app.get('/editar-produto/:id', editarProdutoController.getEditarProduto);
+app.post('/editar-produto/:id', editarProdutoController.postEditarProduto);
 
 // Rota para a página de notificações
 app.get('/notifications', notificationsController.getNotifications);
