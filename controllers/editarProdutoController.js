@@ -14,13 +14,19 @@ module.exports = {
   },
 
   postEditarProduto: async (req, res) => {
-    console.log(req.body)
     try {
-      const { prod_id, prod_name, prod_qtd, prod_vencimento, prod_notif, prod_notif_dias } = req.body;
-      await produtosRepository.atualizarProduto(prod_id, prod_name, prod_qtd, prod_vencimento, prod_notif, prod_notif_dias);
+      const id = req.params.id;
+      const { prod_qtd, prod_notif, prod_notif_dias } = req.body;
+      
+      prod_notif_dias_int = prod_notif_dias
+      if (prod_notif_dias == null || prod_notif == undefined){
+        prod_notif_dias_int = 0
+      }
+
+      await produtosRepository.atualizarProduto(id, prod_qtd, prod_notif, prod_notif_dias_int);
       res.redirect('/lista-de-produtos');
     } catch (error) {
       res.redirect('/lista-de-produtos');
     }
   },
-};
+}; 

@@ -13,10 +13,13 @@ module.exports = {
   postCadastroProduto: async (req, res) => {
     const { prod_name, prod_qtd, prod_vencimento, prod_notif, prod_notif_dias } = req.body;
 
-    console.log(prod_vencimento);
+    prod_notif_dias_int = prod_notif_dias
+    if (prod_notif_dias == null || prod_notif == undefined){
+      prod_notif_dias_int = 0
+    }
 
     try {
-      const dados = await produtosRepository.inserirProduto( prod_name, prod_qtd, prod_notif, prod_notif_dias );
+      const dados = await produtosRepository.inserirProduto( prod_name, prod_qtd, prod_notif, prod_notif_dias_int );
     } catch (error) {
       res.render('/cadastrar-produton', { errorMessage: 'Falha no cadastro dos dados.' });
     }

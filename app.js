@@ -7,6 +7,7 @@ const loginController = require('./controllers/loginController');
 const logoutController = require('./controllers/logoutController');
 const productsController = require('./controllers/productsController');
 const editarProdutoController = require('./controllers/editarProdutoController');
+const deletarProdutoController = require('./controllers/deletarProdutoController');
 const notificationsController = require('./controllers/notificationsController');
 
 app.set('view engine', 'ejs');
@@ -58,6 +59,9 @@ app.get('/lista-de-produtos', productsController.getListaProdutos);
 // Rota para a página de edição de produto
 app.get('/editar-produto/:id', editarProdutoController.getEditarProduto);
 app.post('/editar-produto/:id', editarProdutoController.postEditarProduto);
+
+// Rota para a página de deleção de produto
+app.get('/deletar-produto/:id', deletarProdutoController.getDeletarProduto);
 
 // Rota para a página de notificações
 app.get('/notifications', notificationsController.getNotifications);
