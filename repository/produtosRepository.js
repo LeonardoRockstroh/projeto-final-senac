@@ -107,3 +107,22 @@ exports.deletarProduto = async ( id ) => {
             throw error;
          }
   };
+
+  exports.buscarProdutosPorTermo = async (termo) => {
+    const cliente = new Client(conexao);
+    const sql = "SELECT * FROM produto WHERE LOWER(prod_name) LIKE LOWER($1)";
+    const values = [`%${termo}%`];
+  
+    cliente.connect();
+    try {
+      const res = await cliente.query(sql, values);
+      cliente.end();
+      return res.rows;
+    } catch (err) {
+      let error = {};
+      error.name = err.name;
+      error.message = err.message;
+      error.status = 500;
+      throw error;
+    }
+  };

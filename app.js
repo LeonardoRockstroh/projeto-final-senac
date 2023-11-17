@@ -8,7 +8,7 @@ const logoutController = require('./controllers/logoutController');
 const productsController = require('./controllers/productsController');
 const editarProdutoController = require('./controllers/editarProdutoController');
 const deletarProdutoController = require('./controllers/deletarProdutoController');
-const notificationsController = require('./controllers/notificationsController');
+const lancamentosController = require('./controllers/lancamentosController');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,44 +27,44 @@ app.use((req, res, next) => {
 // Configurar o Express para servir arquivos estáticos
 app.use(express.static('public'));
 
+/* LOGIN */
+
 // Redirecionamento da raiz para a página de login
 app.get('/', (req, res) => {
-    res.redirect('/login');
+  res.redirect('/login');
 });
 
 // Rota para a página de login
 app.get('/login', loginController.getLogin);
-
-// Rota para processar o formulário de login
 app.post('/login', loginController.postLogin);
-
-// Rota para processar o formulário de login
 app.get('/logout', logoutController.getLogout);
+
+/* HOME */
 
 // Rota para a página de boas-vindas
 app.get('/index', loginController.getWelcome);
 
+/* PRODUTOS */
+
 // Rota para a página de produtos
 app.get('/products', productsController.getProdutos);
-
-// Rota para a página de cadastro de produto
 app.get('/cadastrar-produto', productsController.getCadastroProduto);
-
-// Rota para processar o envio do formulário de cadastro de produto
 app.post('/cadastrar-produto', productsController.postCadastroProduto);
-
-// Rota para a página que lista os produtos
 app.get('/lista-de-produtos', productsController.getListaProdutos);
-
-// Rota para a página de edição de produto
 app.get('/editar-produto/:id', editarProdutoController.getEditarProduto);
 app.post('/editar-produto/:id', editarProdutoController.postEditarProduto);
-
-// Rota para a página de deleção de produto
 app.get('/deletar-produto/:id', deletarProdutoController.getDeletarProduto);
+app.get('/buscar-produtos', productsController.getTermo);
 
-// Rota para a página de notificações
-app.get('/notifications', notificationsController.getNotifications);
+/* LANÇAMENTOS */
+
+// Rota para a página de lançamentos
+app.get('/lancamentos', lancamentosController.getLancamentos);
+app.get('/lancamentos/lancar-entrada', lancamentosController.getLancarEntrada);
+app.get('/lancamentos/saida', lancamentosController.getLancarSaida);
+app.get('/lancamentos/relatorio', lancamentosController.getRelatorioLancamentos);
+
+/* INICIALIZA SERVIDOR */
 
 app.listen(port, () => {
   console.log(`Servidor em execução na porta ${port}`);

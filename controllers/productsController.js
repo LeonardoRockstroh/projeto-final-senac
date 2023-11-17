@@ -43,4 +43,16 @@ module.exports = {
       res.render('error', { errorMessage: 'Erro ao carregar a lista de produtos.' });
     }
   },
+
+   getTermo: async (req, res) => {
+    const termo = req.query.termo;
+  
+    try {
+      const produtos = await produtosRepository.buscarProdutosPorTermo(termo);
+      res.json(produtos);
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      res.status(500).json({ error: 'Erro ao buscar produtos.' });
+    }
+  },
 };

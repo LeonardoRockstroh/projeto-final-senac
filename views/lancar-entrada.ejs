@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lançar Entrada</title>
+  <link rel="stylesheet" type="text/css" href="/styles_nav.css">
+  <link rel="stylesheet" type="text/css" href="/styles_form_prod.css">
+  <link rel="stylesheet" type="text/css" href="/styles_termo.css">
+</head>
+<body>
+  <nav>
+    <a href="/lancamentos" style="color: #fff;" class="voltar-link">Voltar</a>
+  </nav>
+  <div class="container">
+    <h1>Lançar Entrada</h1>
+    <form action="/lancamentos/entrada" method="POST">
+      <div class="form-group">
+        <label for="prod_name">Nome do Produto:</label>
+        <input type="text" id="prod_name" name="prod_name" required oninput="buscarProdutos()" autocomplete="off">
+        <div id="sugestoes" class="sugestoes"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="lanc_qtd">Quantidade:</label>
+        <input type="number" id="lanc_qtd" name="lanc_qtd" step="any" required min="0.1">
+      </div>
+
+      <div class="form-group">
+        <label for="lanc_vencimento">Data de Vencimento:</label>
+        <input type="date" id="lanc_vencimento" name="lanc_vencimento" required>
+      </div>
+
+      <button type="submit" class="button">Lançar Entrada</button>
+    </form>
+  </div>
+
+  <script>
+    const inputProduto = document.getElementById('prod_name');
+    const sugestoes = document.getElementById('sugestoes');
+
+    function buscarProdutos() {
+      // Limpar sugestões
+      sugestoes.innerHTML = '';
+
+      // Verificar se o campo de entrada não está vazio
+      if (inputProduto.value.trim() !== '') {
+        // Enviar uma solicitação AJAX para obter sugestões
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            const produtos = JSON.parse(xhr.responseText);
+
+            // Exibir sugestões
+            produtos.forEach(produto => {
+              const sugestao = document.createElement('div');
+              sugestao.textContent = produto.prod_name;
+              sugestao.classList.add('sugestoes-item');
+
+              sugestao.addEventListener('click', function() {
+                inputProduto.value = produto.prod_name;
+                sugestoes.innerHTML = ''; // Limpar sugestões ao selecionar
+              });
+
+              sugestoes.appendChild(sugestao);
+            });
+          }
+        };
+
+        // Substitua a URL pela sua rota real no servidor
+        xhr.open('GET', `/buscar-produtos?termo=${inputProduto.value}`, true);
+        xhr.send();
+      }
+    }
+  </script>
+</body>
+</html>
