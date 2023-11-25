@@ -4,19 +4,24 @@
   <title>Lista de Produtos</title>
   <link rel="stylesheet" type="text/css" href="/styles_nav.css">
   <link rel="stylesheet" type="text/css" href="/styles_list_prod.css">
-  <!-- Adicione seus estilos aqui -->
 </head>
 <body>
   <nav>
-    <a href="/products" style="color: #fff;" class="voltar-link">Voltar</a>
+    <a href="/index?username=<%= username %>" style="color: #fff;" class="voltar-link">Voltar</a>
   </nav>
   <div class="container">
     <h1>Lista de Produtos</h1>
+    <a href="/cadastrar-produto" class="button-cadastrar">Cadastrar Produto</a>
     <table class="table">
       <thead>
         <tr>
           <th>Nome do Produto</th>
           <th>Quantidade</th>
+          <th>Unidade</th>
+          <th>Modo de Armazenagem</th>
+          <th>Fornecedor</th>
+          <th>Telefone/Celular</th>
+          <th>Endereço</th>
           <th>Notificar</th>
           <th>Dias</th>
           <th>Editar</th>
@@ -28,9 +33,13 @@
           <tr>
             <td><%= produto.prod_name %></td>
             <td><%= produto.prod_qtd %></td>
+            <td><%= produto.prod_uni %></td>
+            <td><%= produto.prod_md_armaz %></td>
+            <td><%= produto.prod_fornecedor %></td>
+            <td><%= produto.prod_tel_for %></td>
+            <td><%= produto.prod_end_for %></td>
             <td><%= produto.prod_notif ? 'Sim' : 'Não' %></td>
             <td><%= produto.prod_notif_dias %></td>
-            <!-- Ajuste o tamanho dos ícones conforme necessário -->
             <td><a href="/editar-produto/<%= produto.prod_id %>"><img src="/edit.png" alt="Editar" style="width: 30px; height: 30px;"></a></td>
             <td><a href="/deletar-produto/<%= produto.prod_id %>"><img src="/delete.png" alt="Deletar" style="width: 30px; height: 30px;"></a></td>
           </tr>
@@ -41,7 +50,6 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-      // Verificar se há um query parameter indicando sucesso ou erro
       const urlParams = new URLSearchParams(window.location.search);
       const deletionSuccess = urlParams.get('deletionSuccess');
       const deletionError = urlParams.get('deletionError');

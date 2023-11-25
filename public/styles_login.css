@@ -3,6 +3,11 @@ body {
     font-family: Arial, sans-serif;
 }
 
+body {
+    background: url('/fundo01.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
 .error-message {
     color: red;
     font-weight: bold;
@@ -59,6 +64,7 @@ input {
     border-radius: 10px;
     font-size: 40px;
     line-height: 20px;
+    text-align: center;
 }
   
 .button-login {

@@ -3,6 +3,8 @@ const app = express();
 const port = 3000;
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const flash = require('express-flash');
+const messages = require('express-messages');
 const loginController = require('./controllers/loginController');
 const logoutController = require('./controllers/logoutController');
 const productsController = require('./controllers/productsController');
@@ -18,6 +20,14 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
 }));
+
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.messages = messages(req, res);
+  res.locals.username = req.session.username;
+  next();
+});
 
 app.use((req, res, next) => {
   res.locals.username = req.session.username;
@@ -47,7 +57,7 @@ app.get('/index', loginController.getWelcome);
 /* PRODUTOS */
 
 // Rota para a página de produtos
-app.get('/products', productsController.getProdutos);
+//app.get('/products', productsController.getProdutos);
 app.get('/cadastrar-produto', productsController.getCadastroProduto);
 app.post('/cadastrar-produto', productsController.postCadastroProduto);
 app.get('/lista-de-produtos', productsController.getListaProdutos);
@@ -61,6 +71,7 @@ app.get('/buscar-produtos', productsController.getTermo);
 // Rota para a página de lançamentos
 app.get('/lancamentos', lancamentosController.getLancamentos);
 app.get('/lancamentos/lancar-entrada', lancamentosController.getLancarEntrada);
+app.post('/lancamentos/entrada', lancamentosController.postEntrada);
 app.get('/lancamentos/saida', lancamentosController.getLancarSaida);
 app.get('/lancamentos/relatorio', lancamentosController.getRelatorioLancamentos);
 

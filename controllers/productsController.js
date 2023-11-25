@@ -11,7 +11,7 @@ module.exports = {
   },
 
   postCadastroProduto: async (req, res) => {
-    const { prod_name, prod_qtd, prod_vencimento, prod_notif, prod_notif_dias } = req.body;
+    const { prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_vencimento, prod_notif, prod_notif_dias } = req.body;
 
     prod_notif_dias_int = prod_notif_dias
     if (prod_notif_dias == null || prod_notif == undefined){
@@ -19,12 +19,12 @@ module.exports = {
     }
 
     try {
-      const dados = await produtosRepository.inserirProduto( prod_name, prod_qtd, prod_notif, prod_notif_dias_int );
+      const dados = await produtosRepository.inserirProduto( prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, prod_notif_dias_int );
     } catch (error) {
-      res.render('/cadastrar-produton', { errorMessage: 'Falha no cadastro dos dados.' });
+      res.render('/cadastrar-produto', { errorMessage: 'Falha no cadastro dos dados.' });
     }
 
-    res.redirect('/products');
+    res.redirect('/lista-de-produtos');
   },
 
   getListaProdutos: async (req, res) => {

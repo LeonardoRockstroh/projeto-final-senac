@@ -1,16 +1,23 @@
 .container {
     text-align: center;
     max-width: 800px;
-    margin: 30px auto;
+    margin: 80px auto;
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+    border: 2px solid #9BB7E2;
 }
 
 h1 {
-    margin: 0 0 20px;
-    text-align: center; 
+    margin: 50px auto;
+    margin-top: 0px;
+    background-color: #9BB7E2;
+    color: #fff;
+    padding: 15px; 
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-group {
@@ -23,7 +30,8 @@ h1 {
 .form-group label {
     text-align: left;
     margin-left: 10%;
-    font-size: 30px;
+    font-size: 15px;
+    margin-top: 5px;
 }
 
 .form-group input,
@@ -35,7 +43,7 @@ h1 {
     background-color: transparent;
     outline: none;
     transition: border-bottom 0.3s;
-    font-size: 30px;
+    font-size: 15px;
 }
 
 .button-container {
@@ -54,7 +62,7 @@ button {
     height: 80px;
     text-align: center;
     margin: 10px; 
-    font-size: 35px; 
+    font-size: 30px; 
     line-height: 60px; 
     transition: background-color 0.3s; 
 }
@@ -74,16 +82,16 @@ button:hover {
     padding: 10px;
     margin-bottom: 10px;
     border: none;
-    border-bottom: 1px solid #007BFF;
-    background-color: transparent;
+    border-radius: 5px; 
+    background-color: #f4f4f4;
     outline: none;
-    transition: border-bottom 0.3s;
-    margin: 0 auto; 
+    transition: border-bottom 0.3s, border 0.3s;
+    margin: 5px auto; 
 }
 
 .form-group input[type="checkbox"] {
     margin-left: 60px;
-    margin-top: 10px;
+    margin-top: 5px;
     transform: scale(1.5); 
 }
 
@@ -102,4 +110,14 @@ button:hover {
 .non-editable {
     text-align: start;
     color: #a8a8a8;
+}
+
+.select-field {
+    border: none;
+    border-bottom: 1px solid #007BFF;
+    background-color: transparent;
+    outline: none;
+    transition: border-bottom 0.3s;
+    margin: 0 auto;
+    min-width: 82%;
 }

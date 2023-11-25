@@ -5,13 +5,48 @@
   <link rel="stylesheet" type="text/css" href="/styles_nav.css">
   <link rel="stylesheet" type="text/css" href="/styles_form_prod.css">
   <link rel="stylesheet" type="text/css" href="/styles_termo.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
   <nav>
     <a href="/lancamentos" style="color: #fff;" class="voltar-link">Voltar</a>
   </nav>
   <div class="container">
-    <h1>Lançar Entrada</h1>
+    <h1>Entrada</h1>
+
+    <% if (messages && messages.error && messages.error.length > 0) { %>
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const errorMessage = '<%= messages.error.join("<br>") %>';
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            html: errorMessage,
+            customClass: {
+              popup: 'custom-swal-popup',
+              title: 'custom-swal-title',
+              content: 'custom-swal-content',
+            },
+            heightAuto: false,
+            onOpen: () => {
+              const modalElement = document.querySelector('.swal-toast-container');
+              if (modalElement) {
+                modalElement.addEventListener('click', () => {
+                  Swal.close();
+                });
+
+                document.addEventListener('keydown', (event) => {
+                  if (event.key === 'Enter') {
+                    Swal.close();
+                  }
+                });
+              }
+            },
+          });
+        });
+      </script>
+    <% } %>  
+
     <form action="/lancamentos/entrada" method="POST">
       <div class="form-group">
         <label for="prod_name">Nome do Produto:</label>
@@ -26,30 +61,43 @@
 
       <div class="form-group">
         <label for="lanc_vencimento">Data de Vencimento:</label>
-        <input type="date" id="lanc_vencimento" name="lanc_vencimento" required>
+        <input type="date" id="lanc_vencimento" name="lanc_vencimento">
       </div>
 
-      <button type="submit" class="button">Lançar Entrada</button>
+      <button type="submit" class="button">Lançar</button>
     </form>
   </div>
+
+  <style>
+    /* Adicione essas regras de estilo diretamente ao código */
+    .custom-swal-popup {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .custom-swal-title {
+      margin-bottom: 10px;
+    }
+
+    .custom-swal-content {
+      text-align: center; /* Centraliza o texto */
+    }
+  </style>
 
   <script>
     const inputProduto = document.getElementById('prod_name');
     const sugestoes = document.getElementById('sugestoes');
 
     function buscarProdutos() {
-      // Limpar sugestões
       sugestoes.innerHTML = '';
 
-      // Verificar se o campo de entrada não está vazio
       if (inputProduto.value.trim() !== '') {
-        // Enviar uma solicitação AJAX para obter sugestões
+
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4 && xhr.status === 200) {
             const produtos = JSON.parse(xhr.responseText);
 
-            // Exibir sugestões
             produtos.forEach(produto => {
               const sugestao = document.createElement('div');
               sugestao.textContent = produto.prod_name;
@@ -57,15 +105,17 @@
 
               sugestao.addEventListener('click', function() {
                 inputProduto.value = produto.prod_name;
-                sugestoes.innerHTML = ''; // Limpar sugestões ao selecionar
+                sugestoes.innerHTML = ''; 
+              });
+
+              sugestao.addEventListener('mouseover', function() {
+                inputProduto.value = produto.prod_name;
               });
 
               sugestoes.appendChild(sugestao);
             });
           }
         };
-
-        // Substitua a URL pela sua rota real no servidor
         xhr.open('GET', `/buscar-produtos?termo=${inputProduto.value}`, true);
         xhr.send();
       }

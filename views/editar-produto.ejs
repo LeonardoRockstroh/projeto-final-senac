@@ -23,6 +23,39 @@
       </div>
 
       <div class="form-group">
+        <label for="prod_uni">Unidade:</label>
+        <select id="prod_uni" name="prod_uni" class="select-field" required>
+          <option value="(Un)" <%= produto.prod_uni === '(Un)' ? 'selected' : '' %>>(Un)</option>
+          <option value="(Kg)" <%= produto.prod_uni === '(Kg)' ? 'selected' : '' %>>(Kg)</option>
+          <option value="(G)" <%= produto.prod_uni === '(G)' ? 'selected' : '' %>>(G)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="prod_md_armaz">Modo de armazenar:</label>
+        <select id="prod_md_armaz" name="prod_md_armaz" class="select-field" required>
+          <option value="Ambiente" <%= produto.prod_md_armaz === 'Ambiente' ? 'selected' : '' %>>Ambiente</option>
+          <option value="Frio" <%= produto.prod_md_armaz === 'Frio' ? 'selected' : '' %>>Frio</option>
+          <option value="Congelado" <%= produto.prod_md_armaz === 'Congelado' ? 'selected' : '' %>>Congelado</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="prod_fornecedor">Fonercedor:</label>
+        <input type="text" id="prod_fornecedor" name="prod_fornecedor" value="<%= produto.prod_fornecedor %>">
+      </div>
+
+      <div class="form-group">
+        <label for="prod_tel_for">Telefone/Celular:</label>
+        <input type="text" id="prod_tel_for" name="prod_tel_for" value="<%= produto.prod_tel_for %>">
+      </div>
+
+      <div class="form-group">
+        <label for="prod_end_for">Endereço:</label>
+        <input type="text" id="prod_end_for" name="prod_end_for" value="<%= produto.prod_end_for %>">
+      </div>
+
+      <div class="form-group">
         <label for="prod_notif">Deseja receber notificação?</label>
         <div class="checkbox-container">
           <input type="checkbox" id="prod_notif" name="prod_notif" <%= produto.prod_notif ? 'checked' : '' %>>

@@ -7,7 +7,7 @@
 </head>
 <body>
   <nav>
-    <a href="/products" style="color: #fff;" class="voltar-link">Voltar</a>
+    <a href="lista-de-produtos" style="color: #fff;" class="voltar-link">Voltar</a>
   </nav>
   <div class="container">
     <h1>Cadastrar Produto</h1>
@@ -25,6 +25,39 @@
       <div class="form-group">
         <label for="prod_vencimento">Data de Vencimento:</label>
         <input type="date" id="prod_vencimento" name="prod_vencimento">
+      </div>
+
+      <div class="form-group">
+        <label for="prod_uni">Unidade:</label>
+        <select id="prod_uni" name="prod_uni" class="select-field" required>
+          <option value="(Un)" selected>(Un)</option>
+          <option value="(Kg)">(Kg)</option>
+          <option value="(G)">(G)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="prod_md_armaz">Modo de armazenar:</label>
+        <select id="prod_md_armaz" name="prod_md_armaz" class="select-field" required>
+          <option value="Ambiente" selected>Ambiente</option>
+          <option value="Frio">Frio</option>
+          <option value="Congelado">Congelado</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="prod_fornecedor">Fonercedor:</label>
+        <input type="text" id="prod_fornecedor" name="prod_fornecedor">
+      </div>
+
+      <div class="form-group">
+        <label for="prod_tel_for">Telefone/Celular:</label>
+        <input type="text" id="prod_tel_for" name="prod_tel_for">
+      </div>
+
+      <div class="form-group">
+        <label for="prod_end_for">Endereço:</label>
+        <input type="text" id="prod_end_for" name="prod_end_for">
       </div>
 
       <div class="form-group">

@@ -9,7 +9,6 @@ module.exports = {
             // Redirecionar para a lista com uma mensagem no query parameter
             res.redirect('/lista-de-produtos?deletionSuccess=true');
         } catch (error) {
-            console.error('Erro ao excluir produto:', error);
             // Redirecionar para a lista com uma mensagem de erro no query parameter
             res.redirect('/lista-de-produtos?deletionError=true');
         }
