@@ -1,9 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
 <head>
   <title>Editar Produto</title>
   <link rel="stylesheet" type="text/css" href="/styles_nav.css">
   <link rel="stylesheet" type="text/css" href="/styles_form_prod.css">
+  <style>
+    .custom-alert {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 9999;
+    }
+
+    .custom-alert h2 {
+      margin-bottom: 10px;
+    }
+
+    .custom-alert button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #9BB7E2;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .custom-alert button:hover {
+      background-color: #7A9EC8; 
+    }
+  </style>
 </head>
 <body>
   <nav>
@@ -11,6 +42,25 @@
   </nav>
   <div class="container">
     <h1>Editar Produto</h1>
+
+    <% if (messages && messages.error && messages.error.length > 0) { %>
+      <div class="custom-alert" id="customAlert">
+        <h2>Erro</h2>
+        <p><%= messages.error.join("<br>") %></p>
+        <button onclick="closeCustomAlert()">OK</button>
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          document.getElementById('customAlert').style.display = 'block';
+        });
+
+        function closeCustomAlert() {
+          document.getElementById('customAlert').style.display = 'none';
+        }
+      </script>
+    <% } %>
+
     <form action="/editar-produto/<%= produto.prod_id %>" method="POST">
       <div class="form-group">
         <label for="prod_name">Nome do Produto:</label>
@@ -41,7 +91,7 @@
       </div>
 
       <div class="form-group">
-        <label for="prod_fornecedor">Fonercedor:</label>
+        <label for="prod_fornecedor">Fornecedor:</label>
         <input type="text" id="prod_fornecedor" name="prod_fornecedor" value="<%= produto.prod_fornecedor %>">
       </div>
 
@@ -79,6 +129,16 @@
       checkbox.addEventListener("change", function () {
         diasContainer.style.display = checkbox.checked ? "block" : "none";
       });
+
+      const customAlert = document.getElementById('customAlert');
+
+      if (customAlert && customAlert.innerText.trim() !== '') {
+        customAlert.style.display = 'block';
+      }
+
+      function closeCustomAlert() {
+        customAlert.style.display = 'none';
+      }
     });
   </script>
 </body>

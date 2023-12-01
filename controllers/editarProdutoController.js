@@ -23,8 +23,6 @@ module.exports = {
         prod_notif_dias_int = 0
       }
 
-      console.log(prod_uni)
-
       await produtosRepository.atualizarProduto(id, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, prod_notif_dias_int);
       res.redirect('/lista-de-produtos');
     } catch (error) {

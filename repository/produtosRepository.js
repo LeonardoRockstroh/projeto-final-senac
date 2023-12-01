@@ -147,7 +147,7 @@ exports.deletarProduto = async ( id ) => {
          }
   };
 
-  exports.atualizarQuantidade = async ( id, rod_qtd ) => {
+  exports.atualizarQuantidade = async ( id, prod_qtd ) => {
     const cliente = new Client(conexao);
     const sql     = "UPDATE produto SET prod_qtd = $2 WHERE prod_id = $1 RETURNING *";
     const values  = [id, prod_qtd];

@@ -25,8 +25,10 @@ CREATE TABLE lancamento (
 	prod_id   serial,
     prod_name VARCHAR(50) NOT NULL,
 	lanc_qtd  DECIMAL(8,3),
-	lanc_vencimento date,
-	lanc_entrada BOOL
+	lanc_vencimento DATE,
+	lanc_entrada BOOL,
+	lanc_dt DATE,
+	lanc_tm TIME
 );
 
 /*

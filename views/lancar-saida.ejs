@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <title>Lançar Entrada</title>
+  <title>Lançar Saída</title>
   <link rel="stylesheet" type="text/css" href="/styles_nav.css">
   <link rel="stylesheet" type="text/css" href="/styles_form_prod.css">
   <link rel="stylesheet" type="text/css" href="/styles_termo.css">
@@ -42,7 +42,7 @@
     <a href="/lancamentos" style="color: #fff;" class="voltar-link">Voltar</a>
   </nav>
   <div class="container">
-    <h1>Entrada</h1>
+    <h1>Saída</h1>
 
     <% if (messages && messages.error && messages.error.length > 0) { %>
       <div class="custom-alert" id="customAlert">
@@ -62,7 +62,7 @@
       </script>
     <% } %>  
 
-    <form action="/lancamentos/entrada" method="POST">
+    <form action="/lancamentos/saida" method="POST">
       <div class="form-group">
         <label for="prod_name">Nome do Produto:</label>
         <input type="text" id="prod_name" name="prod_name" required oninput="buscarProdutos()" autocomplete="off">
@@ -71,7 +71,7 @@
 
       <div class="form-group">
         <label for="lanc_qtd">Quantidade:</label>
-        <input type="number" id="lanc_qtd" name="lanc_qtd" step="any" required min="0.1">
+        <input type="number" id="lanc_qtd" name="lanc_qtd" step="any" required min="1">
       </div>
 
       <div class="form-group">

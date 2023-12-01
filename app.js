@@ -11,6 +11,7 @@ const productsController = require('./controllers/productsController');
 const editarProdutoController = require('./controllers/editarProdutoController');
 const deletarProdutoController = require('./controllers/deletarProdutoController');
 const lancamentosController = require('./controllers/lancamentosController');
+const relatorioController = require('./controllers/relatorioController');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,6 +34,8 @@ app.use((req, res, next) => {
   res.locals.username = req.session.username;
   next();
 });
+
+app.use(bodyParser.json());
 
 // Configurar o Express para servir arquivos estáticos
 app.use(express.static('public'));
@@ -72,8 +75,11 @@ app.get('/buscar-produtos', productsController.getTermo);
 app.get('/lancamentos', lancamentosController.getLancamentos);
 app.get('/lancamentos/lancar-entrada', lancamentosController.getLancarEntrada);
 app.post('/lancamentos/entrada', lancamentosController.postEntrada);
-app.get('/lancamentos/saida', lancamentosController.getLancarSaida);
-app.get('/lancamentos/relatorio', lancamentosController.getRelatorioLancamentos);
+app.get('/lancamentos/lancar-saida', lancamentosController.getLancarSaida);
+app.post('/lancamentos/saida', lancamentosController.postSaida);
+
+app.get('/relatorio', relatorioController.getListaLancamentos);
+app.post('/relatorio', relatorioController.getListaLancamentosFiltro);
 
 /* INICIALIZA SERVIDOR */
 

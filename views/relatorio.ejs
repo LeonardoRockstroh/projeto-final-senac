@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <title>Lista de Lançamentos</title>
+  <link rel="stylesheet" type="text/css" href="/styles_nav.css">
+  <link rel="stylesheet" type="text/css" href="/styles_list_prod.css">
+</head>
+<body>
+  <nav>
+    <a href="/index?username=<%= username %>" style="color: #fff;" class="voltar-link">Voltar</a>
+  </nav>
+  <div class="container">
+    <h1>Lista de Lançamentos</h1>
+    <div class="filter-container">
+      <label for="filterVencimentoMin">Data de Vencimento:</label>
+      <input type="date" id="filterVencimentoMin" name="filterVencimentoMin">
+      <label for="filterVencimentoMax">Até</label>
+      <input type="date" id="filterVencimentoMax" name="filterVencimentoMax">
+      <label for="filterLancamentoMin">Data de Lançamento:</label>
+      <input type="date" id="filterLancamentoMin" name="filterLancamentoMin">
+      <label for="filterLancamentoMax">Até</label>
+      <input type="date" id="filterLancamentoMax" name="filterLancamentoMax">
+      <button onclick="applyFilters(event)">Aplicar Filtros</button>
+    </div>
+    <table class="table" id="lancamentosTable">
+      <thead>
+        <tr>
+          <th>Nome do Produto</th>
+          <th>Quantidade</th>
+          <th>Data de Vencimento</th>
+          <th>Entrada</th>
+          <th>Data do Lançamento</th>
+          <th>Hora do Lançamento</th>
+          <th>Editar</th>
+          <th>Deletar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% lancamentos.forEach((lancamento) => { %>
+          <tr>
+            <td><%= lancamento.prod_name %></td>
+            <td><%= lancamento.lanc_qtd %></td>
+            <td><%= lancamento.lanc_vencimento %></td>
+            <td><%= lancamento.lanc_entrada ? 'X' : '' %></td>
+            <td><%= lancamento.lanc_dt %></td>
+            <td><%= lancamento.lanc_tm %></td>
+            <td><a href="/editar-lancamento/<%= lancamento.lanc_id %>"><img src="/edit.png" alt="Editar" style="width: 30px; height: 30px;"></a></td>
+            <td><a href="/deletar-lancamento/<%= lancamento.lanc_id %>"><img src="/delete.png" alt="Deletar" style="width: 30px; height: 30px;"></a></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+
+  <script>
+    async function applyFilters(event) {
+      event.preventDefault();
+  
+      const filterVencimentoMin = document.getElementById('filterVencimentoMin').value;
+      const filterVencimentoMax = document.getElementById('filterVencimentoMax').value;
+      const filterLancamentoMin = document.getElementById('filterLancamentoMin').value;
+      const filterLancamentoMax = document.getElementById('filterLancamentoMax').value;
+  
+      const url = `/relatorio`;
+  
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          filterVencimentoMin,
+          filterVencimentoMax,
+          filterLancamentoMin,
+          filterLancamentoMax,
+        }),
+      });
+  
+      const data = await response.json();
+
+      console.log(data)
+  
+      // Limpar a tabela
+      const tableBody = document.querySelector('#lancamentosTable tbody');
+      tableBody.innerHTML = '';
+  
+      // Preencher a tabela com os dados filtrados
+      data.forEach((lancamento) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${lancamento.prod_name}</td>
+          <td>${lancamento.lanc_qtd}</td>
+          <td>${lancamento.lanc_vencimento}</td>
+          <td>${lancamento.lanc_entrada ? 'X' : ''}</td>
+          <td>${lancamento.lanc_dt}</td>
+          <td>${lancamento.lanc_tm}</td>
+          <td><a href="/editar-lancamento/${lancamento.lanc_id}"><img src="/edit.png" alt="Editar" style="width: 30px; height: 30px;"></a></td>
+          <td><a href="/deletar-lancamento/${lancamento.lanc_id}"><img src="/delete.png" alt="Deletar" style="width: 30px; height: 30px;"></a></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+  </script>
+  
+</body>
+</html>
