@@ -11,16 +11,20 @@
   </nav>
   <div class="container">
     <h1>Lista de Lançamentos</h1>
+    <h3>Filtros:</h3>
     <div class="filter-container">
       <label for="filterVencimentoMin">Data de Vencimento:</label>
       <input type="date" id="filterVencimentoMin" name="filterVencimentoMin">
       <label for="filterVencimentoMax">Até</label>
       <input type="date" id="filterVencimentoMax" name="filterVencimentoMax">
+      <label>/</label>
       <label for="filterLancamentoMin">Data de Lançamento:</label>
       <input type="date" id="filterLancamentoMin" name="filterLancamentoMin">
       <label for="filterLancamentoMax">Até</label>
       <input type="date" id="filterLancamentoMax" name="filterLancamentoMax">
+      </br>
       <button onclick="applyFilters(event)">Aplicar Filtros</button>
+      <button onclick="clearFilters()">Limpar Filtros</button>
     </div>
     <table class="table" id="lancamentosTable">
       <thead>
@@ -100,6 +104,15 @@
         `;
         tableBody.appendChild(row);
       });
+    }
+
+    function clearFilters() {
+      document.getElementById('filterVencimentoMin').value = '';
+      document.getElementById('filterVencimentoMax').value = '';
+      document.getElementById('filterLancamentoMin').value = '';
+      document.getElementById('filterLancamentoMax').value = '';
+
+      applyFilters(event);
     }
   </script>
   

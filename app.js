@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: 'username', // Substitua com uma chave secreta adequada
+  secret: 'username',
   resave: false,
   saveUninitialized: true,
 }));
@@ -37,7 +37,6 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-// Configurar o Express para servir arquivos estáticos
 app.use(express.static('public'));
 
 /* LOGIN */
@@ -60,7 +59,6 @@ app.get('/index', loginController.getWelcome);
 /* PRODUTOS */
 
 // Rota para a página de produtos
-//app.get('/products', productsController.getProdutos);
 app.get('/cadastrar-produto', productsController.getCadastroProduto);
 app.post('/cadastrar-produto', productsController.postCadastroProduto);
 app.get('/lista-de-produtos', productsController.getListaProdutos);
@@ -78,8 +76,14 @@ app.post('/lancamentos/entrada', lancamentosController.postEntrada);
 app.get('/lancamentos/lancar-saida', lancamentosController.getLancarSaida);
 app.post('/lancamentos/saida', lancamentosController.postSaida);
 
+/* RELATÓRIO */
+
+// Rota para relatório
 app.get('/relatorio', relatorioController.getListaLancamentos);
 app.post('/relatorio', relatorioController.getListaLancamentosFiltro);
+app.get('/editar-lancamento/:id', relatorioController.getEditarLancamento);
+app.post('/editar-lancamento/:id', relatorioController.postEditarLancamento);
+app.get('/deletar-lancamento/:id', relatorioController.getDeletarLancamento);
 
 /* INICIALIZA SERVIDOR */
 

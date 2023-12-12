@@ -1,4 +1,5 @@
 const produtosRepository = require('../repository/produtosRepository');
+const lancamentoRepository = require('../repository/lancamentoRepository');
 const express = require('express');
 
 module.exports = {
@@ -13,20 +14,35 @@ module.exports = {
   postCadastroProduto: async (req, res) => {
     const { prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_vencimento, prod_notif, prod_notif_dias } = req.body;
     const dataAtual = new Date().toISOString().split('T')[0];
-    
+    const horaAtual = new Date().toLocaleTimeString();
+
     prod_notif_dias_int = prod_notif_dias
     if (prod_notif_dias == null || prod_notif == undefined){
       prod_notif_dias_int = 0
     }
-
-    if (prod_vencimento < dataAtual) {
-      req.flash('error', 'A data de vencimento não pode ser menor que a data atual.');
-      res.render('cadastrar-produto', { username: req.session.username, messages: req.flash() });
-      return;
+    
+    if (!prod_vencimento) {
+      // Não preenchido
+      lanc_vencimento = '9999-12-01'
+    } else {
+      if (prod_vencimento < dataAtual) {
+        req.flash('error', 'A data de vencimento não pode ser menor que a data atual.');
+        res.render('cadastrar-produto', { username: req.session.username, messages: req.flash() });
+        return;
+      }
     }
 
     try {
       const dados = await produtosRepository.inserirProduto( prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, prod_notif_dias_int );
+      const dadosLancamento = await lancamentoRepository.inserirLancamento(
+        dados[0].prod_id,
+        prod_name,
+        prod_qtd,
+        lanc_vencimento,
+        true,
+        dataAtual,
+        horaAtual
+      );
     } catch (error) {
       res.render('/cadastrar-produto', { errorMessage: 'Falha no cadastro dos dados.' });
     }

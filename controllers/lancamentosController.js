@@ -20,7 +20,7 @@ module.exports = {
   },
 
   postEntrada: async (req, res) => {
-    const { prod_name, lanc_qtd, lanc_vencimento } = req.body;
+    var { prod_name, lanc_qtd, lanc_vencimento } = req.body;
     const entrada = true;
   
     try {
@@ -34,11 +34,16 @@ module.exports = {
         const dataAtual = new Date().toISOString().split('T')[0];
         const horaAtual = new Date().toLocaleTimeString();
         const prod_qtd = parseFloat(produto[0].prod_qtd) + parseFloat(lanc_qtd);
-
-        if (lanc_vencimento < dataAtual) {
-          req.flash('error', 'A data de vencimento não pode ser menor que a data atual.');
-          res.render('lancar-entrada', { username: req.session.username, messages: req.flash() });
-          return;
+        
+        if (!lanc_vencimento) {
+          // Não preenchido
+          lanc_vencimento = '9999-12-01'
+        } else {
+          if (lanc_vencimento < dataAtual) {
+            eq.flash('error', 'A data de vencimento não pode ser menor que a data atual.');
+            res.render('lancar-entrada', { username: req.session.username, messages: req.flash() });
+            return;
+          }
         }
   
         const dados = await lancamentoRepository.inserirLancamento(
@@ -66,7 +71,7 @@ module.exports = {
   },
 
   postSaida: async (req, res) => {
-    const { prod_name, lanc_qtd, lanc_vencimento } = req.body;
+    var { prod_name, lanc_qtd, lanc_vencimento } = req.body;
     const entrada = false;
   
     try {
@@ -86,10 +91,15 @@ module.exports = {
           return;
         }
 
-        if (lanc_vencimento < dataAtual) {
-          req.flash('error', 'A data de vencimento não pode ser menor que a data atual.');
-          res.render('lancar-entrada', { username: req.session.username, messages: req.flash() });
-          return;
+        if (!lanc_vencimento) {
+          // Não preenchido
+          lanc_vencimento = '9999-12-01'
+        } else {
+          if (lanc_vencimento < dataAtual) {
+            req.flash('error', 'A data de vencimento não pode ser menor que a data atual.');
+            res.render('lancar-entrada', { username: req.session.username, messages: req.flash() });
+            return;
+          }
         }
 
         const prod_qtd = parseFloat(produto[0].prod_qtd) - parseFloat(lanc_qtd);
@@ -112,6 +122,7 @@ module.exports = {
         res.render('lancamentos', { username: req.session.username });
       }
     } catch (error) {
+      console.log(error)
       console.error('Erro ao inserir lançamento:', error);
       req.flash('error', 'Erro ao inserir lançamento. Por favor, tente novamente.');
       res.render('lancar-saida', { username: req.session.username, messages: req.flash() });

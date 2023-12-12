@@ -67,3 +67,83 @@ exports.getLancamentosFiltro = async ( dt_venc_ini, dt_venc_fim, dt_lanc_ini, dt
             throw error;
          }
 };
+
+exports.obterLancamentoPorId = async ( id ) => { 
+    const cliente = new Client(conexao);
+    const sql     = "SELECT * FROM lancamento WHERE lanc_id = $1";
+    const values  = [id];
+
+    cliente.connect();
+        try{
+            const res = await cliente.query(sql, values);
+            cliente.end();
+            return (res.rows);
+         }
+         catch(err){
+            let error = {};
+            error.name = err.name;
+            error.message = err.message;
+            error.status = 500;
+            throw error;
+         }
+};
+
+exports.atualizarLancamento = async ( id, lanc_qtd, lanc_vencimento ) => {
+    const cliente = new Client(conexao);
+    const sql     = "UPDATE lancamento SET lanc_qtd = $2, lanc_vencimento = $3 WHERE lanc_id = $1 RETURNING *";
+    const values  = [id, lanc_qtd, lanc_vencimento];
+
+    cliente.connect();    
+        try{
+            const res = await cliente.query(sql, values);
+            cliente.end();
+            return (res.rows);
+         }
+         catch(err){
+            let error = {};
+            error.name = err.name;
+            error.message = err.message;
+            error.status = 500;
+            throw error;
+         }
+};
+
+exports.deletarLancamento = async ( id ) => {
+    const cliente = new Client(conexao);
+    const sql = 'DELETE FROM lancamento WHERE lanc_id = $1';
+    const values  = [id];
+
+    cliente.connect();    
+        try{
+            const res = await cliente.query(sql, values);
+            cliente.end();
+            return (res.rows);
+         }
+         catch(err){
+            let error = {};
+            error.name = err.name;
+            error.message = err.message;
+            error.status = 500;
+            throw error;
+         }
+};
+
+exports.deletarLancamentoProd = async ( id ) => {
+    const cliente = new Client(conexao);
+    const sql = 'DELETE FROM lancamento WHERE prod_id = $1';
+    const values  = [id];
+
+    cliente.connect();    
+        try{
+            const res = await cliente.query(sql, values);
+            cliente.end();
+            return (res.rows);
+         }
+         catch(err){
+            let error = {};
+            error.name = err.name;
+            error.message = err.message;
+            error.status = 500;
+            throw error;
+         }
+};
