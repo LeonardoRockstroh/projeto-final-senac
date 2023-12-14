@@ -127,5 +127,36 @@ module.exports = {
       req.flash('error', 'Erro ao inserir lançamento. Por favor, tente novamente.');
       res.render('lancar-saida', { username: req.session.username, messages: req.flash() });
     }
+  },
+
+  getNotificacoes: async (req, res) => {
+    try {
+      const produtos = await produtosRepository.buscaNotificar();
+  
+      if (!produtos[0]) {
+        // No products to notify
+      } else {
+        const productNames = [];
+  
+        for (const produto of produtos) {
+          try {
+            const lancamento = await lancamentoRepository.obterLancamentoPorIdProd(produto.prod_id);
+  
+            const lancamentoVencimento = new Date(lancamento[0].lanc_vencimento);
+            const currentDate = new Date();
+  
+            if (lancamentoVencimento.getDate() - 1 === currentDate.getDate()) {
+              productNames.push(lancamento[0].prod_name);
+            }
+          } catch (error) {
+            console.error(`Error fetching Lancamento for product ${produto.prod_id}:`, error);
+          }
+        }
+        res.json({ productNames });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
   }
 };

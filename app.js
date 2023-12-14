@@ -75,6 +75,7 @@ app.get('/lancamentos/lancar-entrada', lancamentosController.getLancarEntrada);
 app.post('/lancamentos/entrada', lancamentosController.postEntrada);
 app.get('/lancamentos/lancar-saida', lancamentosController.getLancarSaida);
 app.post('/lancamentos/saida', lancamentosController.postSaida);
+app.get('/lancamentos/notificacao', lancamentosController.getNotificacoes);
 
 /* RELATÓRIO */
 

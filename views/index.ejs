@@ -4,18 +4,79 @@
   <title>Bem-vindo</title>
   <link rel="stylesheet" type="text/css" href="/styles_nav.css">
   <link rel="stylesheet" type="text/css" href="/styles_list_bt.css">
+  <link rel="stylesheet" type="text/css" href="/styles_modal.css">
 </head>
 <body>
   <nav>
+    <div class="logo-container">
+      <img src="/user.png" alt="Usuario" height="50">
+      <span class="logo-text"><%= username %></span>
+    </div>
     <a href="/logout" style="color: #fff;" class="logout-link">Sair</a>
   </nav>
+
+  <div id="notificationModal">
+    <h2>Produtos prestes a vencer</h2>
+    <ul id="productList"></ul>
+    <button id="okButton">OK</button>
+  </div>
+
   <div class="container">
-    <h1>Bem-vindo, <%= username %>!</h1>
     <div class="button-container">
       <a href="lista-de-produtos" class="button">Produtos</a>
       <a href="/lancamentos" class="button">Lançamentos</a>
       <a href="/relatorio" class="button">Relatório</a>
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Check if the notification has already been displayed
+      const notificationDisplayed = localStorage.getItem("notificationDisplayed");
+  
+      // If the notification has not been displayed, fetch data and show the notification
+      if (!notificationDisplayed) {
+        fetch('/lancamentos/notificacao')
+          .then(response => response.json())
+          .then(data => {
+            if (data && data.productNames && data.productNames.length > 0) {
+              displayNotification(data.productNames);
+  
+              // Set the notificationDisplayed item in localStorage
+              localStorage.setItem("notificationDisplayed", "true");
+            }
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      }
+    });
+  
+    function displayNotification(products) {
+      // Populate the product list in the modal
+      var productListElement = document.getElementById("productList");
+      products.forEach(function (product) {
+        var li = document.createElement("li");
+        li.textContent = product;
+        productListElement.appendChild(li);
+      });
+  
+      // Show the notification modal
+      var notificationModal = document.getElementById("notificationModal");
+      notificationModal.style.display = "flex";
+  
+      // Add event listener to the "OK" button
+      var okButton = document.getElementById("okButton");
+      if (okButton) {
+        okButton.addEventListener("click", function () {
+          closeNotificationModal();
+        });
+      }
+    }
+  
+    function closeNotificationModal() {
+      // Hide the notification modal
+      var notificationModal = document.getElementById("notificationModal");
+      notificationModal.style.display = "none";
+    }
+  </script>
 </body>
 </html>

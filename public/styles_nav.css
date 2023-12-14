@@ -8,6 +8,9 @@ body {
   
 /* Home */
 nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     text-align: right;
     padding: 30px;
     background-color: #9BB7E2;
@@ -28,4 +31,15 @@ nav {
 body {
     background: url('/fundo01.jpg') no-repeat center center fixed;
     background-size: cover;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+  }
+
+.logo-text {
+    margin-left: 10px;
+    font-size: 30px;
+    color: #fff;
 }

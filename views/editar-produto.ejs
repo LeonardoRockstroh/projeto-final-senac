@@ -38,6 +38,10 @@
 </head>
 <body>
   <nav>
+    <div class="logo-container">
+      <img src="/user.png" alt="Usuario" height="50">
+      <span class="logo-text"><%= username %></span>
+    </div>
     <a href="/lista-de-produtos" style="color: #fff;" class="voltar-link">Voltar</a>
   </nav>
   <div class="container">
@@ -113,11 +117,13 @@
           <input type="checkbox" id="prod_notif" name="prod_notif" <%= produto.prod_notif ? 'checked' : '' %>>
         </div>
       </div>
-
+      
+      <!-- 
       <div class="form-group" id="prod_notif_dias_container" style="<%= produto.prod_notif ? '' : 'display: none;' %>">
         <label for="prod_notif_dias" class="left-aligned-label">Dias antes para notificar:</label>
         <input type="number" id="prod_notif_dias" name="prod_notif_dias" value="<%= produto.prod_notif_dias %>" min="0" max="31">
       </div>
+      -->
 
       <button type="submit" class="button">Salvar</button>
     </form>

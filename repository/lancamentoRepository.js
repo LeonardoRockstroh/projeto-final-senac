@@ -88,6 +88,26 @@ exports.obterLancamentoPorId = async ( id ) => {
          }
 };
 
+exports.obterLancamentoPorIdProd = async ( id ) => { 
+    const cliente = new Client(conexao);
+    const sql     = "SELECT * FROM lancamento WHERE prod_id = $1";
+    const values  = [id];
+
+    cliente.connect();
+        try{
+            const res = await cliente.query(sql, values);
+            cliente.end();
+            return (res.rows);
+         }
+         catch(err){
+            let error = {};
+            error.name = err.name;
+            error.message = err.message;
+            error.status = 500;
+            throw error;
+         }
+};
+
 exports.atualizarLancamento = async ( id, lanc_qtd, lanc_vencimento ) => {
     const cliente = new Client(conexao);
     const sql     = "UPDATE lancamento SET lanc_qtd = $2, lanc_vencimento = $3 WHERE lanc_id = $1 RETURNING *";

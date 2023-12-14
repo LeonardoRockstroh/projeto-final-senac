@@ -9,10 +9,10 @@ const conexao = {
     password: 'admin'   
 };
 
-exports.inserirProduto = async ( prod_name, prod_qtd = 0, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif = false, prod_notif_dias = null ) => {
+exports.inserirProduto = async ( prod_name, prod_qtd = 0, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif = false ) => {
     const cliente = new Client(conexao);
-    const sql = "INSERT INTO produto (prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, prod_notif_dias) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
-    const values  = [prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, prod_notif_dias];
+    const sql = "INSERT INTO produto (prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+    const values  = [prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif];
 
     cliente.connect();    
         try{
@@ -68,10 +68,10 @@ exports.obterProdutoPorId = async ( id ) => {
         }
 }
 
-exports.atualizarProduto = async ( id, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, prod_notif_dias ) => {
+exports.atualizarProduto = async ( id, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif ) => {
     const cliente = new Client(conexao);
-    const sql     = "UPDATE produto SET prod_qtd = $1, prod_uni = $2, prod_md_armaz = $3, prod_fornecedor = $4, prod_tel_for = $5, prod_end_for = $6, prod_notif = $7, prod_notif_dias = $8 WHERE prod_id = $9 RETURNING *";
-    const values  = [prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, prod_notif_dias, id];
+    const sql     = "UPDATE produto SET prod_qtd = $1, prod_uni = $2, prod_md_armaz = $3, prod_fornecedor = $4, prod_tel_for = $5, prod_end_for = $6, prod_notif = $7 WHERE prod_id = $8 RETURNING *";
+    const values  = [prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, id];
 
     cliente.connect();    
         try{
@@ -135,6 +135,25 @@ exports.deletarProduto = async ( id ) => {
     cliente.connect();    
         try{
             const res = await cliente.query(sql, values);
+            cliente.end();
+            return (res.rows);
+         }
+         catch(err){
+            let error = {};
+            error.name = err.name;
+            error.message = err.message;
+            error.status = 500;
+            throw error;
+         }
+  };
+
+  exports.buscaNotificar = async ( ) => {
+    const cliente = new Client(conexao);
+    const sql = 'SELECT * FROM produto WHERE prod_notif = true';
+
+    cliente.connect();    
+        try{
+            const res = await cliente.query(sql);
             cliente.end();
             return (res.rows);
          }
