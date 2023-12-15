@@ -2,25 +2,12 @@ const { Client } = require('pg');
 
 // JSON conexão ao banco
 const conexao = {
-    //host: 'localhost',
-    //port: 5432,
-    //database: 'SCN',
-    //user: 'postgres',
-    //password: 'admin'   
-    user: 'ice_thbi_user',
-    host: 'dpg-clttutla73kc739718o0-a',
-    database: 'ice_thbi',
-    password: '02Vl8ETVNTRQiA8aGo4hI2MnzXAJ3IUd',
-    port: '5432',
+    host: 'localhost',
+    port: 5432,
+    database: 'SCN',
+    user: 'postgres',
+    password: 'admin'   
 };
-
-const pool = new Pool({
-    user: 'ice_thbi_user',
-    host: 'dpg-clttutla73kc739718o0-a',
-    database: 'ice_thbi',
-    password: '02Vl8ETVNTRQiA8aGo4hI2MnzXAJ3IUd',
-    port: '5432',
-  });
 
 exports.inserirLancamento = async ( prod_id, prod_name, lanc_qtd, lanc_vencimento, lanc_entrada, lanc_dt, lanc_tm ) => {
     const cliente = new Client(conexao);

@@ -12,16 +12,6 @@ const editarProdutoController = require('./controllers/editarProdutoController')
 const deletarProdutoController = require('./controllers/deletarProdutoController');
 const lancamentosController = require('./controllers/lancamentosController');
 const relatorioController = require('./controllers/relatorioController');
-const pgp = require('pg-promise')();
-
-const connection = {
-  host: 'dpg-clttutla73kc739718o0-a',
-  port: 5432,
-  database: 'ice_thbi',
-  user: 'ice_thbi_user',
-  password: '02Vl8ETVNTRQiA8aGo4hI2MnzXAJ3IUd',
-};
-const db = pgp(connection);
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,48 +38,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use(express.static('public'));
-
-async function createTables() {
-  try {
-    await db.none(`
-      CREATE TABLE IF NOT EXISTS usuario (
-        user_id serial PRIMARY KEY,
-        user_name VARCHAR(50) NOT NULL,
-        user_password VARCHAR(50) NOT NULL
-      );
-
-      CREATE TABLE IF NOT EXISTS produto (
-        prod_id   serial PRIMARY KEY,
-        prod_name VARCHAR(50) NOT NULL,
-        prod_qtd  DECIMAL(8,3),
-        prod_uni VARCHAR(5) NOT NULL,
-        prod_md_armaz VARCHAR(20) NOT NULL,
-        prod_fornecedor VARCHAR(50),
-        prod_tel_for VARCHAR(20),
-        prod_end_for VARCHAR(120),
-        prod_notif BOOL
-      );
-
-      CREATE TABLE IF NOT EXISTS lancamento (
-        lanc_id   serial PRIMARY KEY,
-        prod_id   serial,
-        prod_name VARCHAR(50) NOT NULL,
-        lanc_qtd  DECIMAL(8,3),
-        lanc_vencimento DATE,
-        lanc_entrada BOOL,
-        lanc_dt DATE,
-        lanc_tm TIME
-      );
-    `);
-
-    console.log('Tables created successfully.');
-  } catch (error) {
-    console.error('Error creating tables:', error);
-  } finally {
-    pgp.end();
-  }
-}
-createTables();
 
 /* LOGIN */
 

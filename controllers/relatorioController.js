@@ -9,105 +9,93 @@ module.exports = {
 
   getListaLancamentos: async (req, res) => {
     try {
-        var lancamentos = await lancamentoRepository.getLancamentos();
-
-        var lancamentosFormatados = lancamentos.map(item => ({
-            ...item,
-            lanc_vencimento: item.lanc_vencimento ? new Date(item.lanc_vencimento) : null,
-            lanc_dt: item.lanc_dt ? new Date(item.lanc_dt).toLocaleDateString('pt-BR') : null
-        }));
-        lancamentos = lancamentosFormatados;
-
-        lancamentos.sort((a, b) => {
-            const dateA = a.lanc_vencimento;
-            const dateB = b.lanc_vencimento;
-
-            if (!dateA && !dateB) {
-                return 0;
-            } else if (!dateA) {
-                return 1; 
-            } else if (!dateB) {
-                return -1; 
-            }
-
-            return dateA - dateB;
-        });
-
-        lancamentosFormatados = lancamentos.map(item => ({
-          ...item,
-          lanc_vencimento: new Date(item.lanc_vencimento).toLocaleDateString('pt-BR'),
-          lanc_dt: new Date(item.lanc_dt).toLocaleDateString('pt-BR')
-        }));
-      lancamentos = lancamentosFormatados
-
-        res.render('relatorio', { username: req.session.username, lancamentos });
+      const lancamentos = await lancamentoRepository.getLancamentos();
+  
+      lancamentos.sort((a, b) => {
+        const dateA = new Date(a.lanc_vencimento);
+        const dateB = new Date(b.lanc_vencimento);
+  
+        if (!dateA && !dateB) {
+          return 0;
+        } else if (!dateA) {
+          return 1;
+        } else if (!dateB) {
+          return -1;
+        }
+  
+        return dateA - dateB;
+      });
+  
+      const lancamentosFormatados = lancamentos.map(item => ({
+        ...item,
+        lanc_vencimento: item.lanc_vencimento ? new Date(item.lanc_vencimento).toLocaleDateString('pt-BR') : null,
+        lanc_dt: item.lanc_dt ? new Date(item.lanc_dt).toLocaleDateString('pt-BR') : null
+      }));
+  
+      res.render('relatorio', { username: req.session.username, lancamentos: lancamentosFormatados });
     } catch (error) {
-        console.error(error);
-        res.render('error', { errorMessage: 'Erro ao carregar a lista de lançamentos.' });
+      console.error(error);
+      res.render('error', { errorMessage: 'Erro ao carregar a lista de lançamentos.' });
     }
- },
+  },
 
   getListaLancamentosFiltro: async (req, res) => {
     try {
-        // Recupere os filtros do corpo da solicitação
-        let { filterVencimentoMin, filterVencimentoMax, filterLancamentoMin, filterLancamentoMax } = req.body;
-
-        if (!filterVencimentoMin) {
-            filterVencimentoMin = '0001-01-01';
+      // Recupere os filtros do corpo da solicitação
+      let { filterVencimentoMin, filterVencimentoMax, filterLancamentoMin, filterLancamentoMax } = req.body;
+  
+      if (!filterVencimentoMin) {
+        filterVencimentoMin = '0001-01-01';
+      }
+  
+      if (!filterLancamentoMin) {
+        filterLancamentoMin = '0001-01-01';
+      }
+  
+      if (!filterVencimentoMax) {
+        filterVencimentoMax = '9999-12-01';
+      }
+  
+      if (!filterLancamentoMax) {
+        filterLancamentoMax = '9999-12-01';
+      }
+  
+      // Passe os filtros para o método de consulta
+      let lancamentos = await lancamentoRepository.getLancamentosFiltro(
+        filterVencimentoMin,
+        filterVencimentoMax,
+        filterLancamentoMin,
+        filterLancamentoMax
+      );
+  
+      // Ordenação das datas
+      lancamentos.sort((a, b) => {
+        const dateA = new Date(a.lanc_vencimento);
+        const dateB = new Date(b.lanc_vencimento);
+  
+        if (!dateA && !dateB) {
+          return 0;
+        } else if (!dateA) {
+          return 1;
+        } else if (!dateB) {
+          return -1;
         }
-
-        if (!filterLancamentoMin) {
-            filterLancamentoMin = '0001-01-01';
-        }
-
-        if (!filterVencimentoMax) {
-            filterVencimentoMax = '9999-12-01';
-        }
-
-        if (!filterLancamentoMax) {
-            filterLancamentoMax = '9999-12-01';
-        }
-
-        // Passe os filtros para o método de consulta
-        var lancamentos = await lancamentoRepository.getLancamentosFiltro(
-            filterVencimentoMin,
-            filterVencimentoMax,
-            filterLancamentoMin,
-            filterLancamentoMax
-        );
-
-        var lancamentosFormatados = lancamentos.map(item => ({
-          ...item,
-          lanc_vencimento: item.lanc_vencimento ? new Date(item.lanc_vencimento) : null,
-          lanc_dt: item.lanc_dt ? new Date(item.lanc_dt).toLocaleDateString('pt-BR') : null
-        }));
-        lancamentos = lancamentosFormatados;
-
-        lancamentos.sort((a, b) => {
-          const dateA = a.lanc_vencimento;
-          const dateB = b.lanc_vencimento;
-
-          if (!dateA && !dateB) {
-              return 0;
-          } else if (!dateA) {
-              return 1; 
-          } else if (!dateB) {
-              return -1; 
-          }
-
-          return dateA - dateB;
-        });
-
-        lancamentosFormatados = lancamentos.map(item => ({
-            ...item,
-            lanc_vencimento: new Date(item.lanc_vencimento).toLocaleDateString('pt-BR'),
-            lanc_dt: new Date(item.lanc_dt).toLocaleDateString('pt-BR')
-          }));
-        lancamentos = lancamentosFormatados
-
-        res.json(lancamentos);
+  
+        return dateA - dateB;
+      });
+  
+      // Formatação das datas
+      const lancamentosFormatados = lancamentos.map(item => ({
+        ...item,
+        lanc_vencimento: item.lanc_vencimento ? new Date(item.lanc_vencimento).toLocaleDateString('pt-BR') : null,
+        lanc_dt: item.lanc_dt ? new Date(item.lanc_dt).toLocaleDateString('pt-BR') : null
+      }));
+  
+      lancamentos = lancamentosFormatados;
+  
+      res.json(lancamentos);
     } catch (error) {
-        res.render('error', { errorMessage: 'Erro ao carregar a lista de lançamentos.' });
+      res.render('error', { errorMessage: 'Erro ao carregar a lista de lançamentos.' });
     }
   },
 
