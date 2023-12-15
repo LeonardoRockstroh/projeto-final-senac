@@ -68,10 +68,10 @@ exports.obterProdutoPorId = async ( id ) => {
         }
 }
 
-exports.atualizarProduto = async ( id, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif ) => {
+exports.atualizarProduto = async ( id, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif ) => {
     const cliente = new Client(conexao);
-    const sql     = "UPDATE produto SET prod_qtd = $1, prod_uni = $2, prod_md_armaz = $3, prod_fornecedor = $4, prod_tel_for = $5, prod_end_for = $6, prod_notif = $7 WHERE prod_id = $8 RETURNING *";
-    const values  = [prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, id];
+    const sql     = "UPDATE produto SET prod_uni = $1, prod_md_armaz = $2, prod_fornecedor = $3, prod_tel_for = $4, prod_end_for = $5, prod_notif = $6 WHERE prod_id = $7 RETURNING *";
+    const values  = [ prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif, id];
 
     cliente.connect();    
         try{
