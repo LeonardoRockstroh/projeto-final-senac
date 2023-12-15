@@ -34,8 +34,6 @@ module.exports = {
         const dataAtual = new Date().toISOString().split('T')[0];
         const horaAtual = new Date().toLocaleTimeString();
         const prod_qtd = parseFloat(produto[0].prod_qtd) + parseFloat(lanc_qtd);
-
-        console.log(prod_qtd)
         
         if (!lanc_vencimento) {
           // Não preenchido

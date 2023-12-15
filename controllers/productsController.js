@@ -25,11 +25,12 @@ module.exports = {
         res.render('cadastrar-produto', { username: req.session.username, messages: req.flash() });
         return;
       }
+      lanc_vencimento = prod_vencimento
     }
 
     try {
       const dados = await produtosRepository.inserirProduto( prod_name, prod_qtd, prod_uni, prod_md_armaz, prod_fornecedor, prod_tel_for, prod_end_for, prod_notif );
-      const dadosLancamento = await lancamentoRepository.inserirLancamento( dados[0].prod_id, prod_name, prod_qtd, prod_vencimento, true, dataAtual, horaAtual );
+      const dadosLancamento = await lancamentoRepository.inserirLancamento( dados[0].prod_id, prod_name, prod_qtd, lanc_vencimento, true, dataAtual, horaAtual );
     } catch (error) {
       res.render('/cadastrar-produto', { errorMessage: 'Falha no cadastro dos dados.' });
     }
