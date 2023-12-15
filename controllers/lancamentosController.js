@@ -140,13 +140,19 @@ module.exports = {
   
         for (const produto of produtos) {
           try {
-            const lancamento = await lancamentoRepository.obterLancamentoPorIdProd(produto.prod_id);
+            const lancamentos = await lancamentoRepository.obterLancamentoPorIdProd(produto.prod_id);
   
-            const lancamentoVencimento = new Date(lancamento[0].lanc_vencimento);
-            const currentDate = new Date();
-  
-            if (lancamentoVencimento.getDate() - 1 === currentDate.getDate()) {
-              productNames.push(lancamento[0].prod_name);
+            for (const lancamento of lancamentos) {
+              const lancamentoVencimento = new Date(lancamento.lanc_vencimento);
+              const currentDate = new Date();
+    
+              if (lancamentoVencimento.getDate() - 1 === currentDate.getDate()) {
+                const isDuplicate = productNames.some(name => name === lancamento.prod_name);
+    
+                if (!isDuplicate) {
+                  productNames.push(lancamento.prod_name);
+                }
+              }
             }
           } catch (error) {
             console.error(`Error fetching Lancamento for product ${produto.prod_id}:`, error);
